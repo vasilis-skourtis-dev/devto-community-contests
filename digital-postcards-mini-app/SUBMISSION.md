@@ -66,3 +66,6 @@ The visuals lean fully into the physical postcard metaphor:
 
 
 <!-- Thanks for participating! -->
+
+
+![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5byk51tbrkxh059bniem.gif)
