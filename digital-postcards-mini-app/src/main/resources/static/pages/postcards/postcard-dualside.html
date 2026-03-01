@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postcard Component with Header</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" th:href="@{/styles/postcard.css}"/> -->
+    <link rel="stylesheet" href=".\..\..\static\styles\postcards\postcard-dualside-styles.css"/>
+    
+</head>
+<body>
+
+    <input type="checkbox" id="card-toggle">
+    <input type="checkbox" id="mode-toggle">
+
+    <div class="scene">
+
+        <div class="control-panel">
+            <div class="left-side">
+                <div class="icon-btn">🏠</div>
+            </div>
+            
+            <div class="central-side">
+                <label for="mode-toggle" class="rw-label write-lbl">Write</label>
+                <span>|</span>
+                <label for="mode-toggle" class="rw-label read-lbl">Read</label>
+            </div>
+            
+            <div class="right-side">
+                <label for="card-toggle" class="icon-btn flip-trigger" title="Flip">↻</label>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            
+            <div class="card-wrapper">
+
+                <div class="card-face face-front">
+                    <img src="https://picsum.photos/id/1015/900/600" alt="Cover" class="cover-image">
+                </div>
+
+                <div class="card-face face-back">
+                    <header class="card-header">
+                        <div class="card-title"><h1>Greetings!</h1></div>
+                        <div class="stamp-wrapper">
+                            <div class="stamp-frame"><img src="https://picsum.photos/id/1011/200/200"></div>
+                            <small>2FaBe</small>
+                        </div>
+                    </header>
+                    <main style="flex-grow: 1;">
+                        <textarea class="ruled-paper" placeholder="Write here..."></textarea>
+                    </main>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

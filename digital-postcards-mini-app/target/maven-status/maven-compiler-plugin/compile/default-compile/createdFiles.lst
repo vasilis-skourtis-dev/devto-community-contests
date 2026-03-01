@@ -1,0 +1,8 @@
+org\vs\documents\postcards\controller\CardController.class
+org\vs\documents\postcards\service\CardService.class
+org\vs\documents\postcards\dto\CardCreateResponse.class
+org\vs\documents\postcards\dto\CardCreateRequest.class
+org\vs\documents\postcards\PostCardsApplication.class
+org\vs\documents\postcards\service\SteganographyService.class
+org\vs\documents\postcards\dto\CardReadResponse.class
+org\vs\documents\postcards\controller\error\GlobalErrorController.class

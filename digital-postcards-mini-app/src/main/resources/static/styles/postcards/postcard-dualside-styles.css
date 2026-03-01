@@ -1,0 +1,168 @@
+        /* --- RESET & BODY (Background context) --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #2c2c2c; /* Dark desk background */
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* --- 0. HIDDEN LOGIC INPUTS --- */
+        #card-toggle { display: none; }
+        #mode-toggle { display: none; }
+
+
+        /* --- 1. THE SCENE (The Component Container) --- */
+        /* This is the postcard "Applet" size */
+        .scene {
+            width: 900px;
+            height: 600px;
+            max-width: 95vw; /* Responsive safety */
+            aspect-ratio: 3/2;
+            
+            /* Internal Layout: 5% Header, 95% Body */
+            display: grid;
+            grid-template-rows: 5% 95%;
+            
+            background-color: transparent; 
+            /* Optional: Add a subtle shadow to the whole component */
+            /* filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); */
+        }
+
+
+        /* --- 2. CONTROL PANEL (Top 5%) --- */
+        /* This stays STATIC (Does not flip) */
+        .control-panel {
+            background-color: #1a1a1a;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #444;
+            color: #aaa;
+        }
+
+        /* Icons */
+        .icon-btn { cursor: pointer; user-select: none; transition: 0.3s; font-size: 1.2rem; display: flex; align-items: center;}
+        .icon-btn:hover { color: #fff; }
+
+        /* Left / Center / Right alignment */
+        .left-side, .right-side { width: 40px; }
+        .central-side { flex-grow: 1; display: flex; justify-content: center; gap: 10px; }
+        .right-side { display: flex; justify-content: flex-end; }
+        
+        /* Flip Button Highlight Logic */
+        #card-toggle:checked ~ .scene .control-panel .flip-trigger {
+            color: #d4af37; transform: rotate(180deg);
+        }
+        
+        /* Read/Write Highlight Logic */
+        .rw-label { font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
+        #mode-toggle:not(:checked) ~ .scene .rw-label.write-lbl { color: #4ade80; }
+        #mode-toggle:checked ~ .scene .rw-label.read-lbl { color: #4ade80; }
+
+
+        /* --- 3. MAIN PANEL (Bottom 95%) --- */
+        /* This holds the 3D context */
+        .main-panel {
+            position: relative;
+            perspective: 2000px; /* Essential for 3D effect */
+            width: 100%;
+            height: 100%;
+        }
+
+        .auto-flip-wrapper {
+            width: 100%; height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+
+            /* THE MAGIC: Run 'initial-flip' after 1s delay, take 1.5s to move, and STAY there */
+            animation: initial-flip 1.5s ease-in-out 1s forwards;
+            /* animation: initial-flip 1.5s ease-in-out 3s forwards; */
+        }
+
+        /* Define the animation: Start at 0, rotate to 180 (Back side) */
+        @keyframes initial-flip {
+            from { transform: rotateY(0deg); }
+            to   { transform: rotateY(180deg); }
+        }
+
+
+
+        /* --- 4. THE 3D CARD WRAPPER --- */
+        /* This is the object that actually flips */
+        .card-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* FLIP ACTION: Only the wrapper inside Main Panel rotates */
+        #card-toggle:checked ~ .scene .main-panel .card-wrapper {
+            transform: rotateY(180deg);
+        }
+
+        #card-toggle:checked ~ .scene .main-panel .auto-flip-wrapper .card-wrapper {
+            transform: rotateY(180deg);
+        }
+
+
+        /* --- 5. CARD FACES --- */
+        .card-face {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            background: #fff;
+            overflow: hidden;
+            
+            /* Rounded corners only on bottom to match container */
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* FRONT (Image) */
+        .face-front { 
+            transform: rotateY(0deg); 
+            z-index: 2;
+        }
+        .cover-image { width: 100%; height: 100%; object-fit: cover; }
+
+        /* BACK (Content) */
+        .face-back { 
+            transform: rotateY(180deg); 
+            background-color: #fff9e6;
+            padding: 30px;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+
+
+        /* --- 6. INTERNAL CONTENT --- */
+        .card-header { display: flex; justify-content: space-between; border-bottom: 2px solid #e6dcc0; padding-bottom: 10px; height: 20%; }
+        .card-title h1 { font-family: 'Cinzel', serif; font-size: 2rem; color: #444; margin: 0; }
+        
+        .stamp-wrapper { transform: rotate(3deg); text-align: center; }
+        .stamp-frame { width: 80px; height: 80px; border: 2px dashed #d99a9a; padding: 3px; background:#fff; }
+        .stamp-frame img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .ruled-paper {
+            width: 100%; height: 100%; border: none; background: transparent; resize: none; outline: none;
+            font-family: 'Patrick Hand', cursive; font-size: 1.4rem; line-height: 2.2rem;
+            background-image: repeating-linear-gradient(transparent, transparent 2.1rem, #ccc 2.1rem, #ccc 2.2rem);
+            background-attachment: local;
+        }
+
+                /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            .scene { width: 100%; height: 100vh; }
+            .face-back { padding: 20px; gap: 10px; }
+            .card-title h1 { font-size: 1.8rem; }
+            .stamp-frame { width: 70px; height: 70px; }
+            .ruled-paper { font-size: 1.2rem; line-height: 2rem; }
+        }
