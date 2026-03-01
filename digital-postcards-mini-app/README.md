@@ -122,3 +122,32 @@ src/main/resources/
 
 
 
+-------------
+
+### Key files
+
+| File | Role |
+|---|---|
+| `SteganographyService.java` | Pure Java LSB encode & decode engine — no external libraries |
+| `CardController.java` | HTTP routes: upload handling, file download response |
+| `CardService.java` | Orchestrates encode/decode, validates input |
+| `home.html` | Envelope page — upload an image to read |
+| `create.html` | Dual-side postcard — pick a cover, write and encode a message |
+| `view.html` | Dual-side postcard — reveal the decoded message |
+
+
+### How the steganography works
+
+Each character of the secret message is encoded in UTF-8. Every bit is stored in the **least significant bit** of one color channel (R, G, or B) of a pixel. Since the change is only ±1 in a 0–255 range, the visual difference is imperceptible to the human eye.
+
+A **32-bit header** is written first to encode the message length, followed by the message bits themselves.
+
+```
+Pixel before encoding:  R=10110101  G=11001100  B=00110111
+                                ↑           ↑           ↑
+                         bit stored    bit stored    bit stored
+```
+
+Capacity: `image width × height × 3` bits — a 900×600 image can store roughly **202 KB** of text.
+
+---
